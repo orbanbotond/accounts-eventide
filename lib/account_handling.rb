@@ -37,6 +37,7 @@ class Handler
     return false unless account.sufficient_funds?(withdraw.amount)
 
     withdrawn = Withdrawn.follow(withdraw)
+
     withdrawn.processed_time = Time.now.to_s
 
     @stream << withdrawn
@@ -79,11 +80,9 @@ class Projection
   entity_name :account
 
   apply Withdrawn do |withdrawn|
-    account.id = withdrawn.account_id
-
-    amount = withdrawn.amount
-
-    account.withdraw(amount)
+    # TODO this should be read only
+    # account.id = withdrawn.account_id
+    account.withdraw(withdrawn.amount)
   end
 end
 
