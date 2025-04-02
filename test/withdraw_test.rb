@@ -1,7 +1,7 @@
 require_relative './test_helper'
 require_relative '../lib/account_handling'
 
-context "Handler" do
+context 'Handler' do
   store = {}
   account = Account.new
   account.id = 'Boti'
@@ -13,31 +13,31 @@ context "Handler" do
   handler.store = store
   handler.stream = stream
 
-  context "Too much" do
+  context 'Too much' do
     too_much_withdrawal_from_boti = Withdraw.new
     too_much_withdrawal_from_boti.account_id = 'Boti'
     too_much_withdrawal_from_boti.amount = 16
 
     test do
-      handler.(too_much_withdrawal_from_boti)
+      handler.call(too_much_withdrawal_from_boti)
       assert(account.balance == 15)
       assert(stream.length == 0)
     end
   end
 
-  context "Success" do
+  context 'Success' do
     max_withdrawal_from_boti = Withdraw.new
     max_withdrawal_from_boti.account_id = 'Boti'
     max_withdrawal_from_boti.amount = 15
 
     test do
-      handler.(max_withdrawal_from_boti)
+      handler.call(max_withdrawal_from_boti)
       assert(stream.length == 1)
     end
   end
 end
 
-context "Projection" do
+context 'Projection' do
   store = {}
   account = Account.new
   account.id = 'Boti'
@@ -52,8 +52,8 @@ context "Projection" do
   stream << withdrawal_from_boti
   projection = Projection.new(account)
 
-  context "Project" do
-    projection.(withdrawal_from_boti)
+  context 'Project' do
+    projection.call(withdrawal_from_boti)
 
     test do
       assert(account.balance == 1)

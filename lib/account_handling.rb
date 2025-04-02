@@ -22,13 +22,7 @@ end
 class Handler
   include Messaging::Handle
 
-  def store=(store)
-    @store = store
-  end
-
-  def stream=(stream)
-    @stream = stream
-  end
+  attr_writer :store, :stream
 
   handle Withdraw do |withdraw|
     account_id = withdraw.account_id
@@ -80,7 +74,7 @@ class Projection
   entity_name :account
 
   apply Withdrawn do |withdrawn|
-    # TODO this should be read only
+    # TODO: this should be read only
     # account.id = withdrawn.account_id
     account.withdraw(withdrawn.amount)
   end
