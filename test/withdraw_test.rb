@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require_relative './test_helper'
 require_relative '../lib/account_handling'
 
+# rubocop:disable Metrics/BlockLength
 context 'Handler' do
   store = {}
   account = Account.new
@@ -21,7 +24,7 @@ context 'Handler' do
     test do
       handler.call(too_much_withdrawal_from_boti)
       assert(account.balance == 15)
-      assert(stream.length == 0)
+      assert(stream.empty?)
     end
   end
 
@@ -60,3 +63,4 @@ context 'Projection' do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
